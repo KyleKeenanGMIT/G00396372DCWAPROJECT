@@ -13,7 +13,17 @@ app.get('/', (req, res) => {
 
 app.get('/managers', (req, res) => {
   // Fetching Manager JSON Data from MONGODB.
-  res.render('managers', { managers: yourManagersData });
+  res.render('managers');
+});
+
+app.get('/stores', (req, res) => {
+  // will gather stores daya from MYSQL.
+  res.render('stores');
+});
+
+app.get('/products', (req, res) => {
+  // will gather data for products from MYSQL.
+  res.render('products');
 });
 
 // Starting the server
