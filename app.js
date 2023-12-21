@@ -7,10 +7,9 @@ app.set('view engine', 'ejs');//setting embedded javascript as my view engine
 // parsing json bodies
 app.use(express.json());
 
-// simple route
 app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+  res.render('home');
+});//renders the home page first when running app.js - home.ejs
 
 // Starting the server
 app.listen(port, () => {
