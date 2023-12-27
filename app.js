@@ -179,10 +179,19 @@ app.post('/stores/add', async (req, res) => {
 
 
 
-
-app.get('/products', (req, res) => {
-  // will gather data for products from MYSQL.
-  res.render('products');
+ app.get('/products', async (req, res) => {
+  try {
+    const sql = `
+      SELECT p.pid, p.productdesc, ps.sid, s.location, ps.price
+      FROM product p
+      JOIN product_store ps ON p.pid = ps.pid
+      JOIN store s ON ps.sid = s.sid`;//using join to add product_store onto products table.
+    const [products, fields] = await pool.query(sql);//querying using mysql
+    res.render('products', { products });
+  } catch (err) {
+    console.error('Error fetching products:', err);
+    res.status(500).send('Error fetching products');//error if products cannot be fetched
+  }
 });
 
 // Starting the server
