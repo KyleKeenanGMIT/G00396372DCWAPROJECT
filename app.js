@@ -32,6 +32,10 @@ app.get('/managers', async (req, res) => {
   }
 });//gather data stored in mongo DB - managers data is _id, name & salary.
 
+app.get('/managers/add', (req, res) => {
+  res.render('add-manager', { errors: null });
+});//get route for adding new managers to existing DB.
+
 app.get('/stores', (req, res) => {
   // will gather stores daya from MYSQL.
   res.render('stores');
