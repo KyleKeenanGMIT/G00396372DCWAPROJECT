@@ -3,15 +3,15 @@ const app = express();//express install.
 const mongoose = require('mongoose');//mongosee import
 const port = process.env.PORT || 3000; //chosen port
 const Manager = require('./components/managers');//managers.js imported which containts the manager schema.
-const mysql = require('mysql2');
+const mysql = require('mysql');//import of mysql.
 
 
 const pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
   password: 'root',
-  database: 'proj2023.sql'
-});
+  database: 'proj2023'
+});//connection info needed for mySQL.
 
 
 
@@ -85,7 +85,7 @@ app.post('/managers/add', async (req, res) => {
 
 app.get('/stores', (req, res) => {
   // displaying on all stores with sql query
-  pool.query('SELECT * FROM stores', (err, results) => {
+  pool.query('SELECT * FROM store', (err, results) => {
     if (err) {
       console.error('Error fetching stores:', err);
       res.status(500).send('Error fetching stores');

@@ -1,19 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stores Page</title>
+  <title>Stores</title>
 </head>
-
 <body>
-    <h1>Welcome to the Stores Page.</h1>
-    <nav>
-        <ul>
-            <li><a href="/">Back to Home Page</a></li> <!--links to home page page-->
-        </ul>
-    </nav>
-</body>
+  <h1>Welcome to Stores Page</h1><!-- title.-->
+  <a href="/stores/add">Add Store</a> <!-- links to add stores page -->
+  
+  <table>
+    <thead>
+      <tr>
+        <th>SID</th>
+        <th>Location</th>
+        <th>Manager ID</th>
+        <th>Action</th><!--header data describing what everything below means-->
+      </tr>
+    </thead>
+    <tbody>
+      <% stores.forEach(function(store) { %>
+        <tr>
+          <td><%= store.sid %></td>
+          <td><%= store.location %></td>
+          <td><%= store.mgrid %></td>
+          <td><a href="/stores/update/<%= store.sid %>">Update</a></td>
+        </tr>
+      <% }); %><!--displays data in a table with the update icon on the end.-->
+    </tbody>
+  </table>
 
+  <a href="/">Home</a><!--links back to home page-->
+</body>
 </html>
