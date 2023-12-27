@@ -3,7 +3,8 @@ const app = express();//express install.
 const mongoose = require('mongoose');//mongosee import
 const port = process.env.PORT || 3000; //chosen port
 const Manager = require('./components/managers');//managers.js imported which containts the manager schema.
-const mysql = require('mysql');//import of mysql.
+const mysql = require('mysql2');//updated mysql import
+
 
 
 const pool = mysql.createPool({
@@ -11,7 +12,8 @@ const pool = mysql.createPool({
   user: 'root',
   password: 'root',
   database: 'proj2023'
-});//connection info needed for mySQL.
+}).promise();
+//connection info needed for mySQL.
 
 
 
@@ -83,18 +85,55 @@ app.post('/managers/add', async (req, res) => {
 });
 
 
-app.get('/stores', (req, res) => {
-  // displaying on all stores with sql query
-  pool.query('SELECT * FROM store', (err, results) => {
-    if (err) {
-      console.error('Error fetching stores:', err);
-      res.status(500).send('Error fetching stores');
-    } else {
-      // Renders all stores to the screen.
-      res.render('stores', { stores: results });
-    }
-  });
+app.get('/stores', async (req, res) => {
+  try {
+    const sql = 'SELECT * FROM store'; // displaying on all stores with sql query.
+    const [rows, fields] = await pool.query(sql);
+
+    res.render('stores', { stores: rows });
+  } catch (err) {
+    console.error('Error fetching stores:', err);
+    res.status(500).send('Error fetching stores');
+  }
 });
+
+
+app.get('/stores/update/:sid', async (req, res) => {
+  const storeId = req.params.sid;
+  try {
+    const sql = 'SELECT * FROM store WHERE sid = ?';
+    const [rows, fields] = await pool.query(sql, [storeId]);
+
+    if (rows.length === 0) {
+      return res.status(404).send('Store not found.');
+    }
+
+    const store = rows[0];
+    res.render('update-stores', { store });
+  } catch (error) {
+    console.error('Error fetching store details:', error);
+    res.status(500).send('Error fetching store details.');
+  }
+});
+//app.get set to bring user the update an existing store by sid (store id)
+
+
+app.post('/stores/edit/:sid', async (req, res) => {
+  const sid = req.params.sid;
+  const { location, mgrid } = req.body;
+
+  try {
+    const sql = "UPDATE store SET location = ?, mgrid = ? WHERE sid = ?";
+    await pool.query(sql, [location, mgrid, sid]);
+    res.redirect('/stores');
+  } catch (err) {
+    console.error('Error updating store:', err);
+    res.status(500).send('Error updating store.');
+  }
+});
+//app.post - sends the sql query to my existing proj2023 table called store and saves the outputt.
+
+
 
 app.get('/products', (req, res) => {
   // will gather data for products from MYSQL.
