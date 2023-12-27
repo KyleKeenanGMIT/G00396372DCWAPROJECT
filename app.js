@@ -3,6 +3,7 @@ const app = express();//express install.
 const mongoose = require('mongoose');//mongosee import
 const port = process.env.PORT || 3000; //chosen port
 const Manager = require('./components/managers');//managers.js imported which containts the manager schema.
+const mysql = require('mysql2');
 
 
 
