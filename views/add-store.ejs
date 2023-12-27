@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Store</title>
+</head>
+<body>
+    <h1>Welcome To Add Store Page!</h1><!--title-->
+
+    <% if (errors && errors.length > 0) { %>
+        <ul>
+            <% errors.forEach(function(error) { %>
+                <li style="color: red;"><%= error %></li>
+            <% }); %>
+        </ul><!--error msg-->
+    <% } %>
+
+    <form action="/stores/add" method="post">
+        <label for="sid">SID (Must contain 5 letters):</label>
+        <input type="text" id="sid" name="sid" required pattern="[A-Za-z]{5}" title="SID (must be 5 letters)"><!-- must contain 5 chars minimum-->
+
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" required minlength="1"> <!-- must contain 1 chars minimum-->
+
+        <label for="mgrid">Manager ID:</label>
+        <input type="text" id="mgrid" name="mgrid" required pattern="[A-Za-z0-9]{4}" title="Manager ID (4 chars minimum)"><!--must containt 4 chars minimum-->
+
+        <button type="submit">Add Store</button>
+    </form>
+
+    <a href="/stores">Back to Stores List</a>
+</body>
+</html>
