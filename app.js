@@ -138,6 +138,46 @@ app.get('/stores/add', (req, res) => {
 });
 //app.get - for accessing the add stores ejs page.
 
+app.post('/stores/add', async (req, res) => {
+  try {
+    const { sid, location, mgrid } = req.body;
+    let errors = [];
+
+    // Validating the SID must be 5 chars
+    if (sid.length !== 5) {
+      errors.push('SID must be 5 letters.');
+    }
+
+    // Validating the manager id has 4 chars or more
+    if (mgrid.length !== 4) {
+      errors.push('Manager ID should be 4 characters.');
+    }
+
+    // Check if Manager ID is already in use within mongo db
+    const managerExists = await Manager.findOne({ _id: mgrid });
+    if (!managerExists) {
+      errors.push('Manager ID does not exist in MongoDB.');
+    }
+
+    // Check if Manager ID is already in use from another store
+    const [existingStore] = await pool.query('SELECT * FROM store WHERE mgrid = ?', [mgrid]);
+    if (existingStore.length > 0) {
+      errors.push('Manager ID is already assigned to another store.');
+    }
+
+    if (errors.length > 0) {
+      res.render('add-store', { errors });
+    } else {
+      await pool.query('INSERT INTO store (sid, location, mgrid) VALUES (?, ?, ?)', [sid, location, mgrid]);
+      res.redirect('/stores');//assigns the new data to the Mysql database
+    }
+  } catch (error) {
+    console.error('Error adding store:', error);
+    res.status(500).send('Error adding store.');
+  }//error msg.
+});
+
+
 
 
 app.get('/products', (req, res) => {
