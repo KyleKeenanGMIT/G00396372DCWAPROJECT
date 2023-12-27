@@ -7,6 +7,9 @@
 </head>
 <body>
     <h1>Products</h1><!--products page title.-->
+    <% if (error) { %>
+        <div style="color: red;"><%= error %></div>
+      <% } %>
     <table>
         <thead>
             <tr>
