@@ -6,14 +6,14 @@
     <title>Add Manager</title>
 </head>
 <body>
-    <h1>Add Manager</h1>
+    <h1>Add Manager</h1><!--title.-->
     <% if (errors) { %>
         <% errors.forEach(function(error) { %>
             <p style="color: red;"><%= error %></p>
-        <% }); %>
+        <% }); %> <!--errorr function.-->
     <% } %>
     
-    <form action="/managers/add" method="POST">
+    <form action="/managers/add" method="POST"> <!--post mehtod!-->
         <label for="managerId">Manager ID</label>
         <input type="text" id="managerId" name="managerId" required minlength="4" maxlength="4" pattern="M[0-9]{3}">
         
@@ -26,6 +26,6 @@
         <button type="submit">Add</button>
     </form>
 
-    <a href="/">Home</a>
+    <a href="/">Home</a><!--links back to home page.-->
 </body>
 </html>
