@@ -51,7 +51,7 @@ app.post('/managers/add', async (req, res) => {
   try {
     const { managerId, name, salary } = req.body;
     let errors = [];
-    
+
     // validating the data to make sure it meets the min requirements set
     if (managerId.length !== 4) {
       errors.push("Manager ID must be 4 characters");
@@ -62,13 +62,13 @@ app.post('/managers/add', async (req, res) => {
     if (salary < 30000 || salary > 70000) {
       errors.push("Salary must be between 30,000 and 70,000");
     }
-    
+
     // Checking if an existing ID is already there and respoding with error msg
     const existingManager = await Manager.findOne({ _id: managerId });
     if (existingManager) {
       errors.push(`Error: Manager ${managerId} already exists in Database`);
     }
-    
+
     if (errors.length > 0) {
       // rendering the form
       res.render('add-manager', { errors });
@@ -179,7 +179,7 @@ app.post('/stores/add', async (req, res) => {
 
 
 
- app.get('/products', async (req, res) => {
+app.get('/products', async (req, res) => {
   try {
     const sql = `
       SELECT p.pid, p.productdesc, ps.sid, s.location, ps.price
@@ -193,6 +193,24 @@ app.post('/stores/add', async (req, res) => {
     res.status(500).send('Error fetching products');//error if products cannot be fetched
   }
 });
+
+app.post('/products/delete/:pid', async (req, res) => {
+  const productId = req.params.pid;
+
+  try {
+    // Deleeting the query from product_store
+    await pool.query('DELETE FROM product_store WHERE pid = ?', [productId]);
+
+    // deleting physical products next
+    await pool.query('DELETE FROM product WHERE pid = ?', [productId]);
+
+    res.redirect('/products');//redirect back to product page
+  } catch (err) {
+    console.error('Error deleting product:', err);
+    res.status(500).send('Error deleting product');//error msg
+  }
+});
+
 
 // Starting the server
 app.listen(port, () => {
