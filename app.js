@@ -16,7 +16,7 @@ mongoose.connect('mongodb://localhost/proj2023MongoDB')
 // parsing json bodies
 app.use(express.json());
 app.use(express.static('public'));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));//data format for HTML forms.
 
 app.get('/', (req, res) => {
   res.render('home');
@@ -35,6 +35,44 @@ app.get('/managers', async (req, res) => {
 app.get('/managers/add', (req, res) => {
   res.render('add-manager', { errors: null });
 });//get route for adding new managers to existing DB.
+
+app.post('/managers/add', async (req, res) => {
+  try {
+    const { managerId, name, salary } = req.body;
+    let errors = [];
+    
+    // validating the data to make sure it meets the min requirements set
+    if (managerId.length !== 4) {
+      errors.push("Manager ID must be 4 characters");
+    }
+    if (name.length <= 5) {
+      errors.push("Name must be more than 5 characters");
+    }
+    if (salary < 30000 || salary > 70000) {
+      errors.push("Salary must be between 30,000 and 70,000");
+    }
+    
+    // Checking if an existing ID is already there and respoding with error msg
+    const existingManager = await Manager.findOne({ _id: managerId });
+    if (existingManager) {
+      errors.push(`Error: Manager ${managerId} already exists in Database`);
+    }
+    
+    if (errors.length > 0) {
+      // rendering the form
+      res.render('add-manager', { errors });
+    } else {
+      // Creating new manager with chosen data
+      const newManager = new Manager({ _id: managerId, name, salary });
+      await newManager.save();
+      res.redirect('/managers');
+    }
+  } catch (error) { // error msg
+    console.error('Error adding manager:', error);
+    res.status(500).send('Error adding manager.');
+  }
+});
+
 
 app.get('/stores', (req, res) => {
   // will gather stores daya from MYSQL.
