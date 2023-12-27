@@ -1,19 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products Page</title>
+    <title>Products</title>
 </head>
-
 <body>
-    <h1>Welcome to the Products Page.</h1>
-    <nav>
-        <ul>
-            <li><a href="/">Back to Home Page</a></li> <!--links to home page page-->
-        </ul>
-    </nav>
-</body>
+    <h1>Products</h1><!--products page title.-->
+    <table>
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Description</th>
+                <th>Store ID</th>
+                <th>Location</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% products.forEach(function(product) { %>
+                <tr>
+                    <td><%= product.pid %></td><!--lists object by id, desc, store id, location and fixed price-->
+                    <td><%= product.description %></td>
+                    <td><%= product.sid %></td>
+                    <td><%= product.location %></td>
+                    <td><%= product.price.toFixed(2) %></td>
+                    <td>
+                        <form action="/products/delete/<%= product.pid %>" method="post"><!--delets obj using pid (product id)-->
+                            <button type="submit">Delete</button><!--delete button-->
+                        </form>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
 
+    <a href="/">Home</a><!--links back to home page-->
+</body>
 </html>
