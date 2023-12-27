@@ -6,6 +6,14 @@ const Manager = require('./components/managers');//managers.js imported which co
 const mysql = require('mysql2');
 
 
+const pool = mysql.createPool({
+  host: 'localhost',
+  user: 'root',
+  password: 'root',
+  database: 'proj2023.sql'
+});
+
+
 
 app.set('view engine', 'ejs');//setting embedded javascript as my view engine
 
@@ -76,8 +84,16 @@ app.post('/managers/add', async (req, res) => {
 
 
 app.get('/stores', (req, res) => {
-  // will gather stores daya from MYSQL.
-  res.render('stores');
+  // displaying on all stores with sql query
+  pool.query('SELECT * FROM stores', (err, results) => {
+    if (err) {
+      console.error('Error fetching stores:', err);
+      res.status(500).send('Error fetching stores');
+    } else {
+      // Renders all stores to the screen.
+      res.render('stores', { stores: results });
+    }
+  });
 });
 
 app.get('/products', (req, res) => {
