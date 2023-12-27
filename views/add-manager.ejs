@@ -12,6 +12,12 @@
             <p style="color: red;"><%= error %></p>
         <% }); %> <!--errorr function.-->
     <% } %>
+
+
+    <p>• Manager ID must be unique.</p>
+    <p>• Manager ID must be 4 characters in length.</p>  
+    <p>• Name must be > 5 characters.</p>   
+    <p>• Salary must be between 30,000 and 70,000.</p>
     
     <form action="/managers/add" method="POST"> <!--post mehtod!-->
         <label for="managerId">Manager ID</label>
