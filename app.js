@@ -133,6 +133,11 @@ app.post('/stores/edit/:sid', async (req, res) => {
 });
 //app.post - sends the sql query to my existing proj2023 table called store and saves the outputt.
 
+app.get('/stores/add', (req, res) => {
+  res.render('add-store', { errors: [] });
+});
+//app.get - for accessing the add stores ejs page.
+
 
 
 app.get('/products', (req, res) => {
