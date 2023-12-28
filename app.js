@@ -183,10 +183,10 @@ app.post('/stores/add', async (req, res) => {
 app.get('/products', async (req, res) => {
   try {
     const sql = `
-      SELECT p.pid, p.productdesc, ps.sid, s.location, ps.price
-      FROM product p
-      JOIN product_store ps ON p.pid = ps.pid
-      JOIN store s ON ps.sid = s.sid`;//using join to add product_store onto product table
+    SELECT p.pid, p.productdesc, ps.sid, s.location, ps.price
+    FROM product p
+    LEFT JOIN product_store ps ON p.pid = ps.pid
+    LEFT JOIN store s ON ps.sid = s.sid`;//using join to add product_store onto product table
     const [products] = await pool.query(sql);
     res.render('products', { products: products, error: null });
   } catch (err) {

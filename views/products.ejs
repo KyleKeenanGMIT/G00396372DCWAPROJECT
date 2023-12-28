@@ -1,52 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products</title>
 </head>
+
 <body>
     <h1>Products</h1><!--products page title.-->
     <% if (error) { %>
-        <div style="color: red;"><%= error %></div>
-      <% } %>
-      
-    <table>
-        <thead>
-            <tr>
-                <th>Product ID</th>
-                <th>Description</th>
-                <th>Store ID</th>
-                <th>Location</th>
-                <th>Price</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
+        <div style="color: red;">
+            <%= error %>
+        </div>
+        <% } %>
 
-            <% products.forEach(function(product) { %>
-                <tr>
-                  <td><%= product.pid %></td>
-                  <td><%= product.productdesc %></td>
-                  <td><%= product.sid %></td>
-                  <td><%= product.location %></td>
-                  <td>
-                    <% if (product.price != null) { %>
-                      <%= product.price.toFixed(2) %>
-                    <% } else { %>
-                      N/A
-                    <% } %>
-                  </td>
-                  <td>
-                    <form action="/products/delete/<%= product.pid %>" method="post"><!--deletes product using product obj id-->
-                      <button type="submit">Delete</button><!-- delete button -->
-                    </form>
-                  </td>
-                </tr>
-              <% }); %>
-        </tbody>
-    </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Description</th>
+                        <th>Store ID</th>
+                        <th>Location</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% products.forEach(function(product) { %>
+                        <tr>
+                            <td>
+                                <%= product.pid %>
+                            </td>
+                            <td>
+                                <%= product.productdesc %>
+                            </td>
+                            <td>
+                                <%= product.sid || '' %>
+                            </td> 
+                            <td>
+                                <%= product.location || '' %>
+                            </td> 
+                            <td>
+                                <%= product.price !=null ? product.price.toFixed(2) : '' %>
+                                    
+                            </td>
+                            <td>
+                                <form action="/products/delete/<%= product.pid %>" method="post">
+                                    <button type="submit">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% }); %>
+                </tbody>
+            </table>
 
-    <a href="/">Home</a><!--links back to home page-->
+            <a href="/">Home</a><!--links back to home page-->
 </body>
+
 </html>
