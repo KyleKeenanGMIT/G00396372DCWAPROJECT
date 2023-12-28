@@ -179,35 +179,39 @@ app.post('/stores/add', async (req, res) => {
 
 
 
+
 app.get('/products', async (req, res) => {
   try {
     const sql = `
       SELECT p.pid, p.productdesc, ps.sid, s.location, ps.price
       FROM product p
       JOIN product_store ps ON p.pid = ps.pid
-      JOIN store s ON ps.sid = s.sid`;//using join to add product_store onto products table.
-    const [products, fields] = await pool.query(sql);//querying using mysql
-    res.render('products', { products });
+      JOIN store s ON ps.sid = s.sid`;//using join to add product_store onto product table
+    const [products] = await pool.query(sql);
+    res.render('products', { products: products, error: null });
   } catch (err) {
     console.error('Error fetching products:', err);
-    res.status(500).send('Error fetching products');//error if products cannot be fetched
-  }
+    res.render('products', { products: [], error: 'Error fetching products' });
+  }//error if products cannot be fetched from mysql db
 });
+
 
 app.post('/products/delete/:pid', async (req, res) => {
   const productId = req.params.pid;
 
-  try {
-    // Deleeting the query from product_store
-    await pool.query('DELETE FROM product_store WHERE pid = ?', [productId]);
-
-    // deleting physical products next
-    await pool.query('DELETE FROM product WHERE pid = ?', [productId]);
-
-    res.redirect('/products');//redirect back to product page
+  try {//querying to check if the product is being sold which means it cannot be deleted from the db as its in use.
+    const [storesSellingProduct] = await pool.query('SELECT * FROM product_store WHERE pid = ?', [productId]);
+    if (storesSellingProduct.length > 0) {
+      const [products] = await pool.query('SELECT * FROM product');
+      res.render('products', { products: products, error: 'Product cannot be deleted because it is in stores.' });
+    } else {//error msg displayed if product in use is attempted to be deleted.
+      await pool.query('DELETE FROM product WHERE pid = ?', [productId]);
+      res.redirect('/products');// if the product is not being sold its able to be deleted.
+    }
   } catch (err) {
     console.error('Error deleting product:', err);
-    res.status(500).send('Error deleting product');//error msg
+    const [products] = await pool.query('SELECT * FROM product');//fething current list of products after deletion.
+    res.render('products', { products: products, error: 'Error deleting product' });
   }
 });
 
