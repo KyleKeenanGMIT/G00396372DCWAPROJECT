@@ -11,14 +11,14 @@
     <h1>Products</h1><!--products page title.-->
     <% if (error) { %>
         <div style="color: red;">
-            <%= error %>
+            <%= error %> <!--error message if a product that is in use is attempting to delete.-->
         </div>
         <% } %>
 
             <table>
                 <thead>
                     <tr>
-                        <th>Product ID</th>
+                        <th>Product ID</th><!--titles-->
                         <th>Description</th>
                         <th>Store ID</th>
                         <th>Location</th>
@@ -27,27 +27,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% products.forEach(function(product) { %>
+                    <% products.forEach(function(product) { %><!--displaying each product-->
                         <tr>
                             <td>
-                                <%= product.pid %>
+                                <%= product.pid %><!--displaying product id-->
                             </td>
                             <td>
-                                <%= product.productdesc %>
+                                <%= product.productdesc %><!--displaying product description-->
                             </td>
                             <td>
-                                <%= product.sid || '' %>
+                                <%= product.sid || '' %><!--displaying product store id-->
                             </td> 
                             <td>
-                                <%= product.location || '' %>
+                                <%= product.location || '' %><!--displaying location of the store that is stocking te product-->
                             </td> 
                             <td>
-                                <%= product.price !=null ? product.price.toFixed(2) : '' %>
+                                <%= product.price !=null ? product.price.toFixed(2) : '' %><!--displaying the price of the product-->
                                     
                             </td>
                             <td>
-                                <form action="/products/delete/<%= product.pid %>" method="post">
-                                    <button type="submit">Delete</button>
+                                <form action="/products/delete/<%= product.pid %>" method="post"><!--deleting the product id using my post method in app.js-->
+                                    <button type="submit">Delete</button><!--delete button-->
                                 </form>
                             </td>
                         </tr>
