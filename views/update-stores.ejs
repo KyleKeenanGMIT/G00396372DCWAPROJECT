@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Store</title>
 </head>
+
 <body>
     <h1>Edit Store</h1><!--title-->
     <% if (store) { %>
@@ -16,15 +18,17 @@
             <input type="text" id="location" name="location" value="<%= store.location %>" required minlength="1">
 
             <label for="mgrid">Manager ID</label>
-            <input type="text" id="mgrid" name="mgrid" value="<%= store.mgrid %>" required pattern="M[0-9]{3}" title="Manager ID should be 4 characters">
+            <input type="text" id="mgrid" name="mgrid" value="<%= store.mgrid %>" required pattern="M[0-9]{3}"
+                title="Manager ID should be 4 characters">
 
             <button type="submit">Update</button>
         </form>
-    <% } else { %>
-        <p>Store not found/not available.</p><!-- erorr response.-->
-    <% } %>
+        <% } else { %>
+            <p>Store not found/not available.</p><!-- erorr response.-->
+            <% } %>
 
-    <a href="/stores">Back to Stores List</a>
-    <a href="/">Back to home</a>
+                <a href="/stores">Back to Stores List</a>
+                <a href="/">Back to home</a>
 </body>
+
 </html>

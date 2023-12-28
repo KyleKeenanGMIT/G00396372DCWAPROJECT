@@ -1,53 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Add Product</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
 </head>
+
 <body>
-<h1>Add New Product</h1>
+    <h1>Add New Product</h1>
 
-<% if(errors && errors.length > 0) { %>
-  <ul>
-    <% errors.forEach(function(error) { %>
-      <li style="color: red;"><%= error %></li>
-    <% }) %>
-  </ul><!--error displayed-->
-<% } %>
+    <% if(errors && errors.length> 0) { %>
+        <ul>
+            <% errors.forEach(function(error) { %>
+                <li style="color: red;">
+                    <%= error %>
+                </li>
+                <% }) %>
+        </ul><!--error displayed-->
+        <% } %>
 
-<form action="/products/add" method="POST" onsubmit>
-  <div>
-    <label for="pid">Product ID (5 characters minimum):</label>
-    <input type="text" id="pid" name="pid" minlength="5" required><!--user must have 5 mins characters-->
-  </div>
-  
-  <div>
-    <label for="description">Description (10 characters minimum):</label>
-    <input type="text" id="description" name="description" minlength="10" required><!--user must have 10 mins characters-->
-  </div>
-  
-  <div>
-    <label for="sid">Store ID (5 characters minimum):</label>
-    <input type="text" id="sid" name="sid" minlength="5" required><!--user must have 5 mins characters-->
-  </div>
-  
-  <div>
-    <label for="location">Location:</label>
-    <input type="text" id="location" name="location" required><!--input type to enter location of product-->
-  </div>
-  
-  <div>
-    <label for="price">Price:</label>
-    <input type="number" step="0.01" id="price" name="price" required>
-  </div><!--input type to enter pricee of product-->
-  
-  <div>
-    <button type="submit">Add Product</button><!--add product button-->
-  </div>
-</form>
+            <form action="/products/add" method="POST" onsubmit>
+                <div>
+                    <label for="pid">Product ID (5 characters minimum):</label>
+                    <input type="text" id="pid" name="pid" minlength="5"
+                        required><!--user must have 5 mins characters-->
+                </div>
 
-<a href="/">Back to Home</a>
+                <div>
+                    <label for="description">Description (10 characters minimum):</label>
+                    <input type="text" id="description" name="description" minlength="10"
+                        required><!--user must have 10 mins characters-->
+                </div>
+
+                <div>
+                    <label for="sid">Store ID (5 characters minimum):</label>
+                    <input type="text" id="sid" name="sid" minlength="5"
+                        required><!--user must have 5 mins characters-->
+                </div>
+
+                <div>
+                    <label for="location">Location:</label>
+                    <input type="text" id="location" name="location"
+                        required><!--input type to enter location of product-->
+                </div>
+
+                <div>
+                    <label for="price">Price:</label>
+                    <input type="number" step="0.01" id="price" name="price" required>
+                </div><!--input type to enter pricee of product-->
+
+                <div>
+                    <button type="submit">Add Product</button><!--add product button-->
+                </div>
+            </form>
+
+            <a href="/">Back to Home</a>
 
 </body>
+
 </html>

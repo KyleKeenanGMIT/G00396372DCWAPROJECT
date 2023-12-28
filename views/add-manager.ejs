@@ -1,37 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Manager</title>
 </head>
+
 <body>
     <h1>Add Manager</h1><!--title.-->
     <% if (errors) { %>
         <% errors.forEach(function(error) { %>
-            <p style="color: red;"><%= error %></p>
-        <% }); %> <!--errorr function.-->
-    <% } %>
+            <p style="color: red;">
+                <%= error %>
+            </p>
+            <% }); %> <!--errorr function.-->
+                <% } %>
 
 
-    <p>• Manager ID must be unique.</p>
-    <p>• Manager ID must be 4 characters in length.</p>  
-    <p>• Name must be > 5 characters.</p>   
-    <p>• Salary must be between 30,000 and 70,000.</p><!--displays on the home page telling the user what the min requirements to add a new manager is-->
-    
-    <form action="/managers/add" method="POST"> <!--post mehtod!-->
-        <label for="managerId">Manager ID</label>
-        <input type="text" id="managerId" name="managerId" required minlength="4" maxlength="4" pattern="M[0-9]{3}">
-        
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" required minlength="6">
-        
-        <label for="salary">Salary</label>
-        <input type="number" id="salary" name="salary" required min="30000" max="70000">
-        
-        <button type="submit">Add</button>
-    </form>
+                    <p>• Manager ID must be unique.</p>
+                    <p>• Manager ID must be 4 characters in length.</p>
+                    <p>• Name must be > 5 characters.</p>
+                    <p>• Salary must be between 30,000 and 70,000.</p>
+                    <!--displays on the home page telling the user what the min requirements to add a new manager is-->
 
-    <a href="/">Home</a><!--links back to home page.-->
+                    <form action="/managers/add" method="POST"> <!--post mehtod!-->
+                        <label for="managerId">Manager ID</label>
+                        <input type="text" id="managerId" name="managerId" required minlength="4" maxlength="4"
+                            pattern="M[0-9]{3}">
+
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required minlength="6">
+
+                        <label for="salary">Salary</label>
+                        <input type="number" id="salary" name="salary" required min="30000" max="70000">
+
+                        <button type="submit">Add</button>
+                    </form>
+
+                    <a href="/">Home</a><!--links back to home page.-->
 </body>
+
 </html>

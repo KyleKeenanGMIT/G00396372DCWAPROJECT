@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Managers Page</title>
 </head>
+
 <body>
     <h1>Welcome to the Managers Page</h1>
     <a href="/">Back to Home Page</a><br> <!-- back to home page !-->
     <a href="/managers/add">Add Manager (MongoDB) </a> <!--add new manager data to mongo db-->
-    
+
     <ul>
         <% managers.forEach(function(manager) { %>
-            <li> <%= manager._id %>: <%= manager.name %>: €<%= manager.salary %> </li>
-        <% }); %> <!-- displaying manager data, id, name & salary.-->
+            <li>
+                <%= manager._id %>: <%= manager.name %>: €<%= manager.salary %>
+            </li>
+            <% }); %> <!-- displaying manager data, id, name & salary.-->
     </ul>
 
 </body>
+
 </html>

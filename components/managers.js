@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 // defingin the schema for a managers
 const managerSchema = new mongoose.Schema({
-    _id: String,  
+    _id: String,
     name: String,
     salary: Number
 });
