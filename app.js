@@ -215,6 +215,25 @@ app.post('/products/delete/:pid', async (req, res) => {
   }
 });
 
+app.get('/products/add', (req, res) => {
+  res.render('add-product', { errors: null });//get method to bring user to ad products page.
+});
+
+app.post('/products/add', async (req, res) => {
+  try {
+    const { pid, description, sid, location, price } = req.body;
+    // query to insert new product into database.
+    await pool.query('INSERT INTO product (pid, productdesc, supplier) VALUES (?, ?, ?)', [pid, description, 'SupplierName']);
+    // also insertign into product_store table
+    await pool.query('INSERT INTO product_store (pid, sid, price) VALUES (?, ?, ?)', [pid, sid, price]);
+    res.redirect('/products');//redirects back to product page
+  } catch (err) {
+    console.error('Error adding product:', err);
+    res.render('add-product', { errors: ['Failed to add product.'] });
+  }
+});
+
+
 
 // Starting the server
 app.listen(port, () => {
